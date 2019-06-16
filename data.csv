@@ -1,0 +1,4 @@
+endpoint,email,password
+api/register/preprod,abc@gmail.com,123
+api/register/preprod,efg@gmail.com,456
+api/register/preprod,xwz@gmail.com,789

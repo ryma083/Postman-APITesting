@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "706e0b07-f2a4-4e9f-a996-f331c1c11dda",
+		"name": "Collection1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "GET user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f4e9a9c2-1773-41b5-b71d-977a41f573c0",
+								"exec": [
+									"console.log(\"hello world...\");",
+									"let urlVar = pm.variables.get(\"url\");",
+									"console.log(\"the value of the url variable is: \"+urlVar);",
+									"let urlGlo = pm.globals.get(\"localHost\");",
+									"console.log(\"the value of the global url variable is: \"+urlGlo);",
+									"console.log(\"Env VAR BEFORE SETTING\");",
+									"let urlEnv = pm.environment.get(\"LocalHost\");",
+									"console.log(\"the value of the Environment url variable is: \"+urlEnv);",
+									"console.log(\"Env VAR AFTER SETTING\");",
+									"pm.environment.set(\"LocalHost\",\"my EnvVAR\");",
+									"console.log(pm.environment.get(\"LocalHost\"));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e14bc3d7-50ba-4187-bf1f-ebb1ca5153c7",
+								"exec": [
+									"",
+									"console.log(\"Start testing...\");",
+									"",
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"console.info(\"verify status code TEST is done\");",
+									"",
+									"pm.test(\"Verify Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Janet\");",
+									"});",
+									"console.info(\"Verify Body matches Janet TEST is done\");",
+									"",
+									"pm.test(\"Verify response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"console.info(\"Verify response time is less than 200ms TEST is done\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "521a8841-6ca6-4281-83bb-44af4230c61d",
+								"exec": [
+									"pm.test(\"Verify response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Tracey\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users?page=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "User Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0932112e-94ab-4c06-bc75-f5b7b8a712e6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"token\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://reqres.in/{{URI}}",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"{{URI}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1d8641c9-77f1-4e1d-90e9-906dd1347b53",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"leader\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "60937711-6464-46ae-b675-c9df691aac59",
+				"type": "text/javascript",
+				"exec": [
+					"console.log(\"Starting the Script....\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0e6c18f7-c5e3-4610-a9fd-66ba35a9a218",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "0a322f6a-810b-45b9-898c-d87910ed4cf9",
+			"key": "url",
+			"value": "https://reqres.in",
+			"type": "string"
+		},
+		{
+			"id": "1bc582d1-c972-4dce-9842-7dbcc8df5448",
+			"key": "localUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
